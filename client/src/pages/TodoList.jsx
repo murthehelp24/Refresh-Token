@@ -10,6 +10,7 @@ import {
 import { useForm } from "react-hook-form";
 import useTodoStore from "../stores/todoStore";
 import LogoutButton from "../components/LogOut";
+import { toast } from "react-toastify";
 
 export default function TodoPage() {
   const [editId, setEditId] = useState(null);
@@ -50,6 +51,38 @@ export default function TodoPage() {
 
     setEditId(null);
     resetEdit();
+  };
+
+  const confirmDelete = (id) => {
+    toast(
+      ({ closeToast }) => (
+        <div>
+          <p>Delete item?</p>
+          <div className="flex gap-2 mt-2">
+            <button
+              onClick={async () => {
+                closeToast();
+                await hdlDeleteTodo(id);
+                toast.success("Delete Success")
+              }}
+              className="bg-red-500 text-white px-2 py-1 rounded"
+            >
+              yes
+            </button>
+            <button
+              onClick={closeToast}
+              className="bg-gray-300 px-2 py-1 rounded"
+            >
+              cancel
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        autoClose: false,
+        closeOnClick: false,
+      }
+    );
   };
 
   return (
@@ -101,9 +134,8 @@ export default function TodoPage() {
                       isDone: !item.isDone,
                     })
                   }
-                  className={`cursor-pointer ${
-                    item.isDone ? "text-green-500" : "text-gray-300"
-                  }`}
+                  className={`cursor-pointer ${item.isDone ? "text-green-500" : "text-gray-300"
+                    }`}
                 />
 
                 {editId === item.id ? (
@@ -123,11 +155,10 @@ export default function TodoPage() {
                   </form>
                 ) : (
                   <p
-                    className={`flex-1 ${
-                      item.isDone
-                        ? "line-through text-gray-400"
-                        : "text-gray-700"
-                    }`}
+                    className={`flex-1 ${item.isDone
+                      ? "line-through text-gray-400"
+                      : "text-gray-700"
+                      }`}
                   >
                     {item.description}
                   </p>
@@ -146,7 +177,7 @@ export default function TodoPage() {
                   </button>
 
                   <button
-                    onClick={() => hdlDeleteTodo(item.id)}
+                    onClick={() => confirmDelete(item.id)}
                     className="text-rose-400"
                   >
                     <Trash2 size={18} />

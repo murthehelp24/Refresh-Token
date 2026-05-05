@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Leaf, Lock, Mail, Sparkles } from "lucide-react";
 import { useForm } from "react-hook-form";
 import useUserStore from "../stores/userStore";
+import { toast } from "react-toastify";
 
 function Login() {
   const hdlLogin = useUserStore((state) => state.hdlLogin);
@@ -16,8 +17,10 @@ function Login() {
   const hbdSubmit = async ({ email, password }) => {
     try {
       await hdlLogin(email, password);
+      toast.success("Login Success!!")
       navigate("/todo");
     } catch (error) {
+      toast.error("Somthing went wrong!!")
       console.log(error);
     }
   };

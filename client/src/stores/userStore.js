@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { toast } from "react-toastify";
 import { loginApi, registerApi } from "../apis/authApi";
 
 const useUserStore = create(
@@ -7,33 +8,54 @@ const useUserStore = create(
     (set) => ({
       user: null,
       token: null,
+      loading: false,
+      error: null,
 
       hdlLogin: async (email, password) => {
         try {
-          console.log("login");
+          set({ loading: true, error: null });
 
           const data = await loginApi(email, password);
-
-          console.log("Login Success", data);
 
           set({
             user: data.user,
             token: data.token,
+            loading: false,
           });
+
+          toast.success("Login successful");
         } catch (error) {
-          console.log(error);
+          const message =
+            error.response?.data?.message || error.message;
+
+          set({
+            loading: false,
+            error: message,
+          });
+
+          toast.error(message || "Login failed");
         }
       },
 
       hdlRegister: async (name, email, password) => {
         try {
-          console.log("Register");
+          set({ loading: true, error: null });
 
-          const data = await registerApi(name, email, password);
+          await registerApi(name, email, password);
 
-          console.log("Register Success", data);
+          set({ loading: false });
+
+          toast.success("Registration successful");
         } catch (error) {
-          console.log(error);
+          const message =
+            error.response?.data?.message || error.message;
+
+          set({
+            loading: false,
+            error: message,
+          });
+
+          toast.error(message || "Registration failed");
         }
       },
 
@@ -42,12 +64,14 @@ const useUserStore = create(
           user: null,
           token: null,
         });
+
+        toast.info("Logged out");
       },
     }),
     {
       name: "userStorage",
-    },
-  ),
+    }
+  )
 );
 
 export default useUserStore;

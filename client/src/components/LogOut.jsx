@@ -1,15 +1,18 @@
 import { LogOut } from "lucide-react";
 import useUserStore from "../stores/userStore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function LogoutButton() {
   const navigate = useNavigate();
 
   const hdlLogout = useUserStore((state) => state.hdlLogout);
 
-  const handleLogout = () => {
-    hdlLogout();
-    navigate("/login");
+  const handleLogout = async () => {
+    console.log("logout")
+    toast("Logged Out")
+    await hdlLogout();
+    navigate("/");
   };
 
   return (

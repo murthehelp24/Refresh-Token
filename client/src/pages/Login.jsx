@@ -5,32 +5,23 @@ import useUserStore from "../stores/userStore";
 import { toast } from "react-toastify";
 
 function Login() {
-  const hdlLogin = useUserStore((state) => state.hdlLogin);
+  const { hdlLogin, loading } = useUserStore();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
   const hbdSubmit = async ({ email, password }) => {
-    try {
-      await hdlLogin(email, password);
-      toast.success("Login Success!!")
+    const success = await hdlLogin(email, password);
+    if (success) {
       navigate("/todo");
-    } catch (error) {
-      toast.error("Somthing went wrong!!")
-      console.log(error);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-sky-100 to-yellow-100 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-linear-to-br from-green-100 via-sky-100 to-yellow-100 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white/80 backdrop-blur-md shadow-2xl rounded-3xl border border-white p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-green-300 to-sky-300 flex items-center justify-center shadow-lg mb-4">
+          <div className="w-16 h-16 mx-auto rounded-full bg-linear-to-br from-green-300 to-sky-300 flex items-center justify-center shadow-lg mb-4">
             <Sparkles className="text-white" size={28} />
           </div>
 
@@ -112,9 +103,9 @@ function Login() {
 
             <button
               type="submit"
-              className="w-full py-3 rounded-2xl bg-gradient-to-r from-green-400 via-sky-400 to-yellow-300 text-white font-semibold shadow-lg hover:scale-[1.02] active:scale-95 transition"
+              className="w-full py-3 rounded-2xl bg-linear-to-r from-green-400 via-sky-400 to-yellow-300 text-white font-semibold shadow-lg hover:scale-[1.02] active:scale-95 transition"
             >
-              Login
+              {loading ? "loading..." : "login"}
             </button>
           </div>
         </form>

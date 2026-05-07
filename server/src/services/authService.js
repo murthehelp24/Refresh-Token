@@ -41,7 +41,8 @@ export const login = async ({ email, password }) => {
   });
 
   if (!user) {
-    throw createError(401, "Invalid credentials");
+    throw createError(401, "Invalid credentials from backend");
+    return
   }
 
   const match = await bcrypt.compare(password, user.password);

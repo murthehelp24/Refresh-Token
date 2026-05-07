@@ -10,7 +10,6 @@ function LogoutButton() {
 
   const handleLogout = async () => {
     console.log("logout")
-    toast("Logged Out")
     await hdlLogout();
     navigate("/");
   };
@@ -18,7 +17,7 @@ function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-br from-green-300 via-sky-300 to-yellow-300  text-white shadow-md hover:scale-105 active:scale-95 transition"
+      className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-linear-to-br from-green-300 via-sky-300 to-yellow-300  text-white shadow-md hover:scale-105 active:scale-95 transition"
     >
       <LogOut size={18} />
       Logout

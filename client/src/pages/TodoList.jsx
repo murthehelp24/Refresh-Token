@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
-import {
-  Plus,
-  CheckCircle2,
-  Trash2,
-  Leaf,
-  Sparkles,
-  Pencil,
-} from "lucide-react";
+import { Plus, CheckCircle2, Trash2, Leaf, Sparkles, Pencil } from "lucide-react";
 import { useForm } from "react-hook-form";
 import useTodoStore from "../stores/todoStore";
 import LogoutButton from "../components/LogOut";
 import { toast } from "react-toastify";
+import DeleteTodo from "../components/DeleteTodo";
 
 export default function TodoPage() {
   const [editId, setEditId] = useState(null);
@@ -19,15 +13,9 @@ export default function TodoPage() {
   const hdlGetTodo = useTodoStore((state) => state.hdlGetTodo);
   const hdlAddTodo = useTodoStore((state) => state.hdlAddTodo);
   const hdlUpdateTodo = useTodoStore((state) => state.hdlUpdateTodo);
-  const hdlDeleteTodo = useTodoStore((state) => state.hdlDeleteTodo);
 
   const { register, handleSubmit, reset } = useForm();
-
-  const {
-    register: registerEdit,
-    handleSubmit: handleSubmitEdit,
-    reset: resetEdit,
-  } = useForm();
+  const { register: registerEdit, handleSubmit: handleSubmitEdit, reset: resetEdit, } = useForm();
 
   useEffect(() => {
     hdlGetTodo();
@@ -53,44 +41,14 @@ export default function TodoPage() {
     resetEdit();
   };
 
-  const confirmDelete = (id) => {
-    toast(
-      ({ closeToast }) => (
-        <div>
-          <p>Delete item?</p>
-          <div className="flex gap-2 mt-2">
-            <button
-              onClick={async () => {
-                closeToast();
-                await hdlDeleteTodo(id);
-                toast.success("Delete Success")
-              }}
-              className="bg-red-500 text-white px-2 py-1 rounded"
-            >
-              yes
-            </button>
-            <button
-              onClick={closeToast}
-              className="bg-gray-300 px-2 py-1 rounded"
-            >
-              cancel
-            </button>
-          </div>
-        </div>
-      ),
-      {
-        autoClose: false,
-        closeOnClick: false,
-      }
-    );
-  };
+
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-sky-100 to-yellow-100 px-4 py-10">
+    <div className="min-h-screen bg-linear-to-br from-green-100 via-sky-100 to-yellow-100 px-4 py-10">
       <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur-md shadow-2xl rounded-3xl border border-white p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-green-300 via-sky-300 to-yellow-300 flex items-center justify-center shadow-lg mb-4">
+          <div className="w-16 h-16 mx-auto rounded-full bg-linear-to-br from-green-300 via-sky-300 to-yellow-300 flex items-center justify-center shadow-lg mb-4">
             <Sparkles className="text-white" size={28} />
           </div>
 
@@ -112,7 +70,7 @@ export default function TodoPage() {
 
           <button
             type="submit"
-            className="px-5 py-3 rounded-2xl bg-gradient-to-r from-green-400 via-sky-400 to-yellow-300 text-white shadow-lg"
+            className="px-5 py-3 rounded-2xl bg-linear-to-r from-green-400 via-sky-400 to-yellow-300 text-white shadow-lg"
           >
             <Plus size={20} />
           </button>
@@ -176,12 +134,7 @@ export default function TodoPage() {
                     <Pencil size={18} />
                   </button>
 
-                  <button
-                    onClick={() => confirmDelete(item.id)}
-                    className="text-rose-400"
-                  >
-                    <Trash2 size={18} />
-                  </button>
+                  <DeleteTodo id={item.id} />
                 </div>
               )}
             </div>

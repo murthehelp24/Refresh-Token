@@ -3,7 +3,7 @@ import { Sparkles, Leaf, ArrowRight, LogIn, UserPlus } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-sky-100 to-yellow-100 flex items-center justify-center px-4 overflow-hidden">
+    <div className="min-h-screen bg-linear-to-br from-green-100 via-sky-100 to-yellow-100 flex items-center justify-center px-4 overflow-hidden">
       <div className="w-full max-w-3xl bg-white/80 backdrop-blur-md shadow-2xl rounded-3xl border border-white p-10 text-center relative">
         {/* Floating Decorations */}
         <Sparkles
@@ -24,7 +24,7 @@ export default function Home() {
         />
 
         {/* Logo Circle */}
-        <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-green-300 via-sky-300 to-yellow-300 flex items-center justify-center shadow-xl mb-6 animate-pulse">
+        <div className="w-24 h-24 mx-auto rounded-full bg-linear-to-br from-green-300 via-sky-300 to-yellow-300 flex items-center justify-center shadow-xl mb-6 animate-pulse">
           <Sparkles className="text-white" size={38} />
         </div>
 
@@ -42,7 +42,7 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             to="/register"
-            className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-gradient-to-r from-green-400 via-sky-400 to-yellow-300 text-white font-semibold shadow-lg hover:scale-105 active:scale-95 transition"
+            className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-linear-to-r from-green-400 via-sky-400 to-yellow-300 text-white font-semibold shadow-lg hover:scale-105 active:scale-95 transition"
           >
             <UserPlus size={20} />
             Register

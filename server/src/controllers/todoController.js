@@ -1,6 +1,6 @@
 import * as service from "../services/todoService.js";
 
-// GET
+
 export const getTodos = async (req, res, next) => {
   try {
     const todos = await service.getTodos(req.user.id);
@@ -10,7 +10,7 @@ export const getTodos = async (req, res, next) => {
   }
 };
 
-// CREATE
+
 export const createTodo = async (req, res, next) => {
   try {
     const todo = await service.createTodo(req.user.id, req.body);
@@ -20,7 +20,7 @@ export const createTodo = async (req, res, next) => {
   }
 };
 
-// UPDATE
+
 export const updateTodo = async (req, res, next) => {
   try {
     const todo = await service.updateTodo(
@@ -34,7 +34,7 @@ export const updateTodo = async (req, res, next) => {
   }
 };
 
-// DELETE
+
 export const deleteTodo = async (req, res, next) => {
   try {
     await service.deleteTodo(req.user.id, req.params.id);

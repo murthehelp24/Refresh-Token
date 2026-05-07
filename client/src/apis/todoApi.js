@@ -1,14 +1,12 @@
 import api from "../configs/axios.config";
+import useUserStore from "../stores/userStore";
 
 api.interceptors.request.use((config) => {
-  const data = localStorage.getItem("userStorage");
+  const token = useUserStore.getState().token;
 
-  if (data) {
-    const token = JSON.parse(data).state.token;
-
+  if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-
   return config;
 });
 

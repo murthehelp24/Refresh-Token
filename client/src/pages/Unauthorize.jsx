@@ -5,10 +5,10 @@ export default function UnauthorizedPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-sky-100 to-yellow-100 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-linear-to-br from-green-100 via-sky-100 to-yellow-100 flex items-center justify-center px-4">
       <div className="w-full max-w-lg bg-white/80 backdrop-blur-md shadow-2xl rounded-3xl border border-white p-10 text-center">
         {/* Icon */}
-        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-green-300 via-sky-300 to-yellow-300 flex items-center justify-center shadow-lg mb-6">
+        <div className="w-20 h-20 mx-auto rounded-full bg-linear-to-br from-green-300 via-sky-300 to-yellow-300 flex items-center justify-center shadow-lg mb-6">
           <Lock className="text-white" size={34} />
         </div>
 
@@ -43,7 +43,7 @@ export default function UnauthorizedPage() {
 
           <button
             onClick={() => navigate("/login")}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-green-400 via-sky-400 to-yellow-300 text-white font-semibold shadow-lg hover:scale-[1.03] active:scale-95 transition"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-linear-to-r from-green-400 via-sky-400 to-yellow-300 text-white font-semibold shadow-lg hover:scale-[1.03] active:scale-95 transition"
           >
             <Lock size={18} />
             Login

@@ -41,14 +41,14 @@ export const login = async ({ email, password }) => {
   });
 
   if (!user) {
-    throw createError(401, "Invalid credentials from backend");
+    throw createError(400, "Invalid credentials from backend");
     return
   }
 
   const match = await bcrypt.compare(password, user.password);
 
   if (!match) {
-    throw createError(401, "Invalid credentials");
+    throw createError(400, "Invalid credentials");
   }
 
   const token = jwt.sign(

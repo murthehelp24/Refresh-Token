@@ -95,3 +95,54 @@ export const login = async ({ body, ipAddress, userAgent }) => {
     },
   };
 };
+
+
+export const rfToken = async (oldRefreshToken, ipAddress, userAgent) => {
+  console.log('oldRefreshToken', oldRefreshToken)
+  if (!oldRefreshToken) {
+    throw createError(400, 'No refresh token')
+  }
+
+  const saveToken = await prisma.refreshToken.findUnique({
+    where: { token: oldRefreshToken }
+  })
+
+  if (!saveToken) {
+    throw createError(400, 'No saved token')
+  }
+
+  if (saveToken.expiresAt < new Date()) {
+    await prisma.refreshToken.delete({ where: { token: oldRefreshToken } })
+    throw createError(400, 'RefreshToken expired')
+  }
+
+  // Delete old token before creating new one
+  await prisma.refreshToken.delete({ where: { token: oldRefreshToken } })
+
+  // Generate new tokens
+  const newAccessToken = jwt.sign(
+    { id: saveToken.userId },
+    process.env.JWT_SECRET,
+    { expiresIn: "1m" }
+  );
+  const newRefreshToken = jwt.sign(
+    { id: saveToken.userId },
+    process.env.REFRESH_SECRET,
+    { expiresIn: "15d" }
+  );
+
+  const decode = jwt.decode(newRefreshToken)
+
+  // Save the new refresh token
+  await prisma.refreshToken.create({
+    data: {
+      userId: saveToken.userId,
+      token: newRefreshToken,
+      expiresAt: new Date(decode.exp * 1000),
+      ipAddress: ipAddress || 'n/a',
+      userAgent: userAgent
+    }
+  })
+
+  return { newAccessToken, newRefreshToken }
+}

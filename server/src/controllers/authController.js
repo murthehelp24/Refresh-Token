@@ -46,3 +46,14 @@ export const refreshToken = async (req, res, next) => {
   }
 }
 
+
+export const logout = async (req, res, next) => {
+  try {
+    const refreshToken = req.cookies.refreshToken
+    await service.logout(refreshToken)
+    res.status(200).json({ messgae: 'logout success' })
+  } catch (error) {
+    next(error)
+  }
+}
+

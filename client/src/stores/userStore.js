@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { loginApi, registerApi } from "../apis/authApi";
+import { loginApi, logoutApi, registerApi } from "../apis/authApi";
 import { toast } from "react-toastify";
 
 const useUserStore = create(
@@ -40,8 +40,10 @@ const useUserStore = create(
       }
     },
 
-    hdlLogout: () => {
+    hdlLogout: async () => {
       set({ user: null, token: null });
+      const res = await logoutApi()
+      console.log('logout', res)
       toast.info("Logged out");
     },
   }),

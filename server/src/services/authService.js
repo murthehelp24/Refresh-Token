@@ -100,7 +100,7 @@ export const login = async ({ body, ipAddress, userAgent }) => {
 export const rfToken = async (oldRefreshToken, ipAddress, userAgent) => {
   console.log('oldRefreshToken', oldRefreshToken)
   if (!oldRefreshToken) {
-    throw createError(400, 'No refresh token')
+    throw createError(401, 'No refresh token')
   }
 
   const saveToken = await prisma.refreshToken.findUnique({
@@ -108,12 +108,12 @@ export const rfToken = async (oldRefreshToken, ipAddress, userAgent) => {
   })
 
   if (!saveToken) {
-    throw createError(400, 'No saved token')
+    throw createError(401, 'No saved token')
   }
 
   if (saveToken.expiresAt < new Date()) {
     await prisma.refreshToken.delete({ where: { token: oldRefreshToken } })
-    throw createError(400, 'RefreshToken expired')
+    throw createError(401, 'RefreshToken expired')
   }
 
   // Delete old token before creating new one
@@ -145,4 +145,14 @@ export const rfToken = async (oldRefreshToken, ipAddress, userAgent) => {
   })
 
   return { newAccessToken, newRefreshToken }
+}
+
+export const logout = async (refreshToken) => {
+  console.log('refreshToken', refreshToken)
+  if (!refreshToken) {
+    throw createError(400, 'no refreshToken')
+  }
+  await prisma.refreshToken.delete({
+    where: { token: refreshToken }
+  })
 }

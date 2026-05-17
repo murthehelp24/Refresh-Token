@@ -27,7 +27,7 @@ api.interceptors.response.use(
   async (error) => {
     console.log('interceptors error', error.response.status)
     const orginalRequest = error.config
-    if (error.response.status === 401) {
+    if (error.response.status === 401 && error.config.url != '/auth/refresh-token') {
       try {
         const res = await api.get('auth/refresh-token')
         const newAccessToken = res.data.token
@@ -36,9 +36,13 @@ api.interceptors.response.use(
         })
 
         orginalRequest.headers.Authorization = `Bearer ${newAccessToken}`
-        console.log('res', res)
+        // console.log('res', res)
         return api(orginalRequest)
       } catch (error) {
+        useUserStore.setState({
+          user: null,
+          token: null
+        })
         return Promise.reject(error)
       }
     }
